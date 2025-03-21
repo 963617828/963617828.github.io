@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>我的文档</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css">
@@ -16,6 +17,8 @@
     </audio>
     
     <style>
+
+
 .music-player {
     /* 保持定位不变 */
     position: fixed;
@@ -380,7 +383,7 @@ code {
 .logo {
     position: fixed;
     left: 20px;
-    top: 20px;
+    top: 35px;
     z-index: 1001;
     display: flex;
     flex-direction: column;
@@ -443,6 +446,7 @@ code {
     margin-top: 2px;
 }
 
+
     </style>
 
 </head>
@@ -459,12 +463,14 @@ code {
         <div class="top-nav-content">
             <a href="#" class="top-nav-item" onclick="setActiveNav(this)">Linux</a>
             <a href="#" class="top-nav-item active" style="margin-left: 20px;" onclick="setActiveNav(this)">MySQL</a>
+            <div style="margin-left: auto;"><a href="#" class="top-nav-item" onclick="setActiveNav(this)">各种文件</a></div>
         </div>
     </div>
     <div class="container">
         <div class="sidebar">
             <div class="nav-item" id="linux-nav"><a href="#" id="linux-commands">Linux展开</a></div>
             <div class="nav-item" id="mysql-nav"><a href="#" id="mysql-commands">MySQL展开</a></div>
+           
         </div>
         
         <div class="content">
