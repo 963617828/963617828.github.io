@@ -134,4 +134,52 @@
         width: 100%;
         padding: 12px;
     }
+}
+
+.pink-text {
+    color: #FFB6C1 !important;
+}
+
+.sql-file-list {
+    margin: 20px 0;
+}
+
+.sql-file-item {
+    background: #1a1a1a;
+    padding: 10px 15px;
+    margin: 10px 0;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-left: 3px solid #4CAF50;
+}
+
+.sql-file-item:hover {
+    background: #2a2a2a;
+    transform: translateX(5px);
+}
+
+.sql-file-item p {
+    margin: 0;
+    color: #4CAF50;
+    font-weight: 500;
+}
+
+.clickable-sql {
+    color: #4CAF50;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.clickable-sql:hover {
+    text-decoration: underline;
+    color: #FFB6C1;
+}
+
+.download-icon {
+    margin-left: 10px;
+    font-size: 16px;
 } 
