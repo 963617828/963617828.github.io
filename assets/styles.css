@@ -1,0 +1,137 @@
+/* 移动设备适配 */
+@media screen and (max-width: 768px) {
+    /* 基础布局调整 */
+    body {
+        padding: 10px;
+    }
+    
+    /* 容器宽度调整 */
+    .container, 
+    .content-area, 
+    .main-section {
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 10px !important;
+        box-sizing: border-box;
+    }
+    
+    /* 导航菜单调整 */
+    nav ul {
+        flex-direction: column;
+    }
+    
+    nav li {
+        margin: 5px 0;
+    }
+    
+    /* 图片适配 */
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+    
+    /* 字体大小调整 */
+    h1 {
+        font-size: 24px;
+    }
+    
+    h2 {
+        font-size: 20px;
+    }
+    
+    p, li, a {
+        font-size: 16px;
+    }
+    
+    /* 表格适配 */
+    table {
+        display: block;
+        overflow-x: auto;
+    }
+}
+
+/* 小屏幕手机适配 */
+@media screen and (max-width: 480px) {
+    h1 {
+        font-size: 20px;
+    }
+    
+    h2 {
+        font-size: 18px;
+    }
+    
+    p, li, a {
+        font-size: 14px;
+    }
+}
+
+/* 弹性布局支持 */
+.row, 
+.flex-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+@media screen and (max-width: 768px) {
+    .column, 
+    .flex-item {
+        flex: 0 0 100%;
+        max-width: 100%;
+        margin-bottom: 15px;
+    }
+}
+
+/* 移动导航 */
+.mobile-menu-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30px;
+    height: 21px;
+    cursor: pointer;
+}
+
+.mobile-menu-toggle span {
+    display: block;
+    height: 3px;
+    width: 100%;
+    background-color: #333;
+}
+
+@media screen and (max-width: 768px) {
+    .mobile-menu-toggle {
+        display: flex;
+    }
+    
+    nav {
+        display: none;
+    }
+    
+    nav.active {
+        display: block;
+        width: 100%;
+    }
+}
+
+/* 表单适配 */
+@media screen and (max-width: 768px) {
+    input, 
+    select, 
+    textarea {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+    }
+    
+    form label {
+        display: block;
+        margin-bottom: 5px;
+    }
+    
+    button, 
+    input[type="submit"] {
+        width: 100%;
+        padding: 12px;
+    }
+} 
