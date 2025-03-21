@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的文档</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css">
+
+    <div id="music-player" class="music-player">▶</div>
+
+    <audio id="bgm" loop>
+
+    <source src="assets/1.mp3" type="audio/mpeg">
+    您的浏览器不支持音频播放
+    </audio>
+    
+    <style>
+.music-player {
+    /* 保持定位不变 */
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+
+    /* 球形样式 */
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+    /* 渐变背景 */
+    background: radial-gradient(circle at 65% 35%, #FFB6C1, #FF69B4);
+
+    /* 立体阴影 */
+    box-shadow: 
+        0 4px 15px rgba(255,182,193,0.3),
+        inset 0 -2px 4px rgba(255,255,255,0.2),
+        inset 0 2px 4px rgba(255,255,255,0.1);
+
+    /* 文字样式 */
+    font-size: 1.5em;
+    color: white;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+
+    /* 动画效果 */
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    user-select: none;
+}
+
+.music-player:hover {
+    transform: scale(1.15) translateZ(0);
+    box-shadow: 
+        0 6px 20px rgba(255,182,193,0.4),
+        inset 0 -2px 4px rgba(255,255,255,0.3),
+        inset 0 2px 4px rgba(255,255,255,0.2);
+}
+
+.music-player:active {
+    transform: scale(0.9) translateZ(0);
+    background: radial-gradient(circle at 35% 65%, #FF69B4, #FFB6C1);
+}
+
+
+
+:root {
+    --primary-color: #2563eb;
+    --secondary-color: #1e40af;
+    --bg-color: #000000;
+    --text-color: #ffffff;
+    --code-bg: #333333;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background: var(--bg-color);
+    color: var(--text-color);
+}
+
+.container {
+    display: flex;
+    max-width: 1400px;  /* 增加最大宽度以适应右侧导航 */
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.sidebar {
+    width: 260px;
+    padding: 20px;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    border-right: 1px solid #333333;
+}
+
+.content {
+    flex: 1;
+    padding: 20px 40px;
+    max-width: 800px;
+}
+
+h1, h2, h3 {
+    color: var(--primary-color);
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+.nav-item {
+    margin: 8px 0;
+    color: #2196F3;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.nav-item a {
+    text-decoration: none;
+    color: #4CAF50;
+    display: block;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: all 0.2s;
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.nav-item a:hover {
+    background: rgba(255, 228, 225, 0.5);  /* 改为50%透明度 */
+}
+
+pre {
+    background: var(--code-bg);
+    padding: 16px;
+    border-radius: 6px;
+    overflow-x: auto;
+}
+
+code {
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    font-size: 14px;
+}
+
+.warning {
+    background: #fff3cd;
+    border-left: 4px solid #ffc107;
+    padding: 12px;
+    margin: 16px 0;
+    border-radius: 4px;
+}
+
+.tip {
+    background: #d1ecf1;
+    border-left: 4px solid #0dcaf0;
+    padding: 12px;
+    margin: 16px 0;
+    border-radius: 4px;
+}
+
+/* 添加新的样式 */
+#linux-content p {
+    margin-bottom: 5px;
+    color: #ff69b4;
+    font-weight: 500;
+}
+
+#linux-content code {
+    display: block;
+    margin-bottom: 20px;
+    padding: 10px;
+    background: var(--code-bg);
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+    position: relative;
+}
+
+#linux-content code:active {
+    background: #2d2d2d;
+}
+
+#linux-content code::after {
+    content: "已复制";
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: #4CAF50;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 0 4px 0 4px;
+    font-size: 12px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+#linux-content code.copied::after {
+    opacity: 1;
+}
+
+/* 添加右侧导航样式 */
+.right-sidebar {
+    width: 260px;
+    padding: 20px;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    border-left: 1px solid #333333;
+    /* 隐藏默认滚动条 */
+    scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none;  /* IE and Edge */
+}
+
+/* 隐藏 Webkit 浏览器的滚动条 */
+.right-sidebar::-webkit-scrollbar {
+    display: none;
+}
+
+.right-nav-item {
+    margin: 8px 0;
+    cursor: pointer;
+    color: #4CAF50;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+
+.right-nav-item:hover {
+    background: rgba(255, 228, 225, 0.5) !important;  /* 改为50%透明度 */
+    color: #4CAF50;
+}
+
+.right-nav-item.active {
+    background: rgba(255, 182, 193, 0.3) !important;  /* 淡粉色背景透明度30% */
+    color: #4CAF50;
+    border-left: 3px solid #FFB6C1;
+}
+
+/* 修改内容显示的样式 */
+#linux-content > div {
+    display: none;  /* 默认所有代码块都隐藏 */
+}
+
+#linux-content > div.active {
+    display: block;
+    border-left: 4px solid #4CAF50;
+    padding-left: 16px;
+    margin-left: -20px;
+}
+
+/* 添加顶部导航栏样式 */
+.top-nav {
+    background: #1a1a1a;
+    padding: 10px 20px;
+    border-bottom: 1px solid #333;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.top-nav-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+}
+
+.top-nav-item {
+    color: #4CAF50;
+    padding: 8px 16px;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: all 0.2s;
+    font-weight: 500;
+}
+
+.top-nav-item:hover {
+    background: rgba(255, 228, 225, 0.5);  /* 改为50%透明度 */
+}
+
+.top-nav-item.active {
+    background: rgba(255, 182, 193, 0.3) !important;  /* 淡粉色背景透明度30% */
+    color: #4CAF50;
+}
+
+/* 修改代码块样式，添加复制成功提示 */
+#linux-commands-content code::after,
+#mysql-content code::after {
+    content: "已复制";
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: #4CAF50;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 0 4px 0 4px;
+    font-size: 12px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+#linux-commands-content code.copied::after,
+#mysql-content code.copied::after {
+    opacity: 1;
+}
+
+/* 修改代码块样式 */
+#linux-commands-content code,
+#mysql-content code {
+    display: block;
+    margin-bottom: 20px;
+    padding: 10px;
+    background: #2d2d2d;  /* 修改为深灰色背景 */
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+    position: relative;
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    font-size: 14px;
+}
+
+#linux-commands-content code:active,
+#mysql-content code:active {
+    background: #363636;  /* 点击时稍微变亮 */
+}
+
+/* 修改说明文字样式 */
+#linux-commands-content p,
+#mysql-content p {
+    margin-bottom: 5px;
+    color: #ff69b4;
+    font-weight: 500;
+}
+
+/* 添加分组样式 */
+.nav-group {
+    margin-bottom: 25px;
+    background: #1a1a1a;
+    border-radius: 8px;
+    padding: 10px;
+}
+
+.nav-group-title {
+    color: #FFB6C1;
+    font-weight: bold;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #333;
+    font-size: 15px;
+    letter-spacing: 1px;
+}
+
+.nav-group .right-nav-item {
+    padding: 8px 15px;
+    margin: 5px 0;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    font-size: 14px;
+}
+
+.nav-group .right-nav-item:hover {
+    background: rgba(255, 228, 225, 0.5) !important;  /* 改为50%透明度 */
+    color: #4CAF50;
+    transform: translateX(5px);
+}
+
+.nav-group .right-nav-item.active {
+    background: rgba(255, 182, 193, 0.3) !important;  /* 淡粉色背景透明度30% */
+    color: #4CAF50;
+    border-left: 3px solid #FFB6C1;
+}
+
+/* 修改logo样式 */
+.logo {
+    position: fixed;
+    left: 20px;
+    top: 20px;
+    z-index: 1001;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(26, 26, 26, 0.8);
+    padding: 12px;  /* 减小内边距 */
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.logo img {
+    width: 45px;  /* 减小图片尺寸 */
+    height: 45px;  /* 减小图片尺寸 */
+    border-radius: 50%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.logo .info {
+    display: none;  /* 默认隐藏文字信息 */
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+}
+
+/* 鼠标悬停时显示文字信息 */
+.logo:hover .info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.logo:hover img {
+    transform: translateY(-5px);  /* 图片轻微上移 */
+}
+
+.logo .author {
+    color: #FFB6C1;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    margin: 10px 0 5px 0;
+}
+
+.logo .motto {
+    color: #888;
+    font-size: 12px;
+    font-style: italic;
+    margin-bottom: 5px;
+}
+
+.logo .contact {
+    color: #888;
+    font-size: 12px;
+    margin-top: 2px;
+}
+
+    </style>
+
+</head>
+<body>
+    <div class="logo">
+        <img src="assets/log.jpg" alt="Logo">
+        <div class="info">
+            <span class="author">ooowakaka</span>
+            <span class="motto">联系人</span>
+            <span class="contact">QQ:6109322</span>
+        </div>
+    </div>
+    <div class="top-nav">
+        <div class="top-nav-content">
+            <a href="#" class="top-nav-item" onclick="setActiveNav(this)">Linux</a>
+            <a href="#" class="top-nav-item active" style="margin-left: 20px;" onclick="setActiveNav(this)">MySQL</a>
+        </div>
+    </div>
+    <div class="container">
+        <div class="sidebar">
+            <div class="nav-item" id="linux-nav"><a href="#" id="linux-commands">Linux展开</a></div>
+            <div class="nav-item" id="mysql-nav"><a href="#" id="mysql-commands">MySQL展开</a></div>
+        </div>
+        
+        <div class="content">
+            <!-- 添加Linux内容区域 -->
+            <div id="linux-commands-content" style="display: none;">
+                <div id="pwd-command">
+                    <p>显示当前工作目录的完整路径</p>
+                    <code>pwd</code>
+                </div>
+
+                <div id="ls-command">
+                    <p>列出当前目录下的文件和子目录</p>
+                    <code>ls</code>
+                    <p>以长格式显示文件详细信息</p>
+                    <code>ls -l</code>
+                    <p>显示所有文件,包括隐藏文件</p>
+                    <code>ls -a</code>
+                    <p>递归显示子目录内容</p>
+                    <code>ls -R</code>
+                </div>
+
+                <div id="cd-command">
+                    <p>切换到根目录</p>
+                    <code>cd /</code>
+                    <p>切换到用户主目录</p>
+                    <code>cd ~</code>
+                    <p>切换到上一级目录</p>
+                    <code>cd ..</code>
+                    <p>切换到上一个工作目录</p>
+                    <code>cd -</code>
+                </div>
+
+                <div id="mkdir-command">
+                    <p>创建目录dir1</p>
+                    <code>mkdir dir1</code>
+                    <p>递归创建多级目录</p>
+                    <code>mkdir -p a/b/c</code>
+                </div>
+
+                <div id="rmdir-command">
+                    <p>删除空目录dir1</p>
+                    <code>rmdir dir1</code>
+                    <p>递归删除目录dir1及其内容</p>
+                    <code>rm -r dir1</code>
+                </div>
+
+                <div id="cp-command">
+                    <p>复制file1到file2</p>
+                    <code>cp file1 file2</code>
+                    <p>递归复制目录dir1到dir2</p>
+                    <code>cp -r dir1 dir2</code>
+                </div>
+
+                <div id="mv-command">
+                    <p>将file1重命名为file2</p>
+                    <code>mv file1 file2</code>
+                    <p>将file1移动到dir1目录</p>
+                    <code>mv file1 dir1</code>
+                </div>
+
+                <div id="find-command">
+                    <p>在根目录下查找所有.txt文件</p>
+                    <code>find / -name "*.txt"</code>
+                    <p>在当前目录查找所有普通文件</p>
+                    <code>find . -type f</code>
+                    <p>在当前目录查找所有目录</p>
+                    <code>find . -type d</code>
+                </div>
+
+                <div id="more-less-command">
+                    <p>分页显示文件内容,空格翻页,q退出</p>
+                    <code>more file.txt</code>
+                    <p>分页显示文件内容,可前后翻页</p>
+                    <code>less file.txt</code>
+                </div>
+
+                <div id="cat-command">
+                    <p>显示文件全部内容</p>
+                    <code>cat file.txt</code>
+                    <p>创建新文件并输入内容,Ctrl+D结束</p>
+                    <code>cat > file.txt</code>
+                </div>
+
+                <div id="tar-command">
+                    <p>打包文件到archive.tar</p>
+                    <code>tar -cvf archive.tar files</code>
+                    <p>解压archive.tar</p>
+                    <code>tar -xvf archive.tar</code>
+                    <p>打包并压缩</p>
+                    <code>tar -zcvf archive.tar.gz files</code>
+                    <p>解压缩并解包</p>
+                    <code>tar -zxvf archive.tar.gz</code>
+                </div>
+
+                <div id="cal-command">
+                    <p>显示当月日历</p>
+                    <code>cal</code>
+                    <p>显示当年日历</p>
+                    <code>cal -y</code>
+                    <p>显示指定年份日历</p>
+                    <code>cal 2024</code>
+                </div>
+
+                <div id="date-command">
+                    <p>显示当前日期和时间</p>
+                    <code>date</code>
+                    <p>以指定格式显示日期</p>
+                    <code>date +%Y-%m-%d</code>
+                    <p>以指定格式显示时间</p>
+                    <code>date +%H:%M:%S</code>
+                </div>
+
+                <div id="vi-command">
+                    <p>用vi编辑器打开文件</p>
+                    <code>vi file.txt</code>
+                    <p>保存文件</p>
+                    <code>:w</code>
+                    <p>退出vi</p>
+                    <code>:q</code>
+                    <p>保存并退出</p>
+                    <code>:wq</code>
+                    <p>强制退出不保存</p>
+                    <code>:q!</code>
+                    <p>进入插入模式</p>
+                    <code>i</code>
+                    <p>退出插入模式</p>
+                    <code>Esc</code>
+                    <p>删除当前行</p>
+                    <code>dd</code>
+                    <p>复制当前行</p>
+                    <code>yy</code>
+                    <p>粘贴</p>
+                    <code>p</code>
+                    <p>撤销上一步操作</p>
+                    <code>u</code>
+                    <p>向下搜索word</p>
+                    <code>/word</code>
+                    <p>向上搜索word</p>
+                    <code>?word</code>
+                </div>
+
+                <!-- 继续添加其他Linux命令... -->
+            </div>
+
+            <!-- 保留原有的MySQL内容 -->
+            <div id="mysql-content">
+                <div id="create-database">
+                    <p>创建名为 ooowakaka 的数据库</p>
+                    <code>create database ooowakaka;</code>
+                </div>
+
+                <div id="use-database">
+                    <p>切换到 ooowakaka 数据库</p>
+                    <code>use ooowakaka;</code>
+                </div>
+
+                <div id="show-databases">
+                    <p>显示所有数据库</p>
+                    <code>show databases;</code>
+                </div>
+
+                <div id="drop-database">
+                    <p>删除 ooowakaka 数据库</p>
+                    <code>drop database ooowakaka;</code>
+                </div>
+
+                <div id="create-table">
+                    <p>创建名为 press 的表</p>
+                    <code>create table press(
+    press_id int,                  // 整型
+    press_name varchar(50),        // 长度为50的字符串
+    website varchar(50),           // 长度为50的字符串
+    postcode char(6),             // 长度为6的字符
+    press_telphone varchar(20),    // 长度为20的字符串
+    press_email varchar(50),       // 长度为50的字符串
+    press_address varchar(100)     // 长度为100的字符串
+);</code>
+                </div>
+
+                <div id="describe-table">
+                    <p>查看 press 表的结构</p>
+                    <code>describe press;</code>
+                </div>
+
+                <div id="show-tables">
+                    <p>显示当前数据库中的所有表</p>
+                    <code>show tables;</code>
+                </div>
+
+                <div id="create-like-table">
+                    <p>创建一个与 press 表结构相同的表 p1</p>
+                    <code>create table p1 like press;</code>
+                </div>
+
+                <div id="drop-table">
+                    <p>删除表 p1</p>
+                    <code>drop table p1;</code>
+                </div>
+
+                <div id="rename-table">
+                    <p>将表 press 重命名为 t_press</p>
+                    <code>alter table press rename t_press;</code>
+                </div>
+
+                <div id="add-field">
+                    <p>在 t_press 表中添加一个名为 press_newtest 的字段</p>
+                    <code>alter table t_press add press_newtest varchar(50);</code>
+                </div>
+
+                <div id="add-field-first">
+                    <p>在 t_press 表中添加一个名为 press_newtest2 的字段，并将其放在表的第一列</p>
+                    <code>alter table t_press add press_newtest2 varchar(50) first;</code>
+                </div>
+
+                <div id="add-field-after">
+                    <p>在 t_press 表中添加一个名为 press_newtest3 的字段，并将其放在 website 字段之后</p>
+                    <code>alter table t_press add press_newtest3 varchar(50) after website;</code>
+                </div>
+
+                <div id="drop-field">
+                    <p>删除 t_press 表中的 press_newtest3 字段</p>
+                    <code>alter table t_press drop press_newtest3;</code>
+                </div>
+
+                <div id="modify-field">
+                    <p>修改 t_press 表中的 press_telphone 字段类型为长度为15的字符</p>
+                    <code>alter table t_press modify press_telphone char(15);</code>
+                </div>
+
+                <div id="rename-field">
+                    <p>将 t_press 表中的 press_telphone 字段重命名为 press_tel，并修改其类型为长度为15的字符串</p>
+                    <code>alter table t_press change press_telphone press_tel varchar(15);</code>
+                </div>
+
+                <div id="move-field">
+                    <p>修改 t_press 表中的 website 字段类型为长度为100的字符，并将其位置移动到 press_name 字段之后</p>
+                    <code>alter table t_press modify website char(100) after press_name;</code>
+                </div>
+
+                <div id="create-table-notnull">
+                    <p>创建一个名为 p1 的表，其中包含一个非空的 press_name 字段</p>
+                    <code>create table p1(press_name varchar(50) not null);</code>
+                </div>
+
+                <div id="create-table-default">
+                    <p>创建一个名为 p2 的表，包含一个非空的 press_name 字段和一个默认值为"11111"的 postcode 字段</p>
+                    <code>create table p2(
+    press_name varchar(50) not null,
+    postcode char(6) default "11111"
+);</code>
+                </div>
+
+                <div id="create-table-unique">
+                    <p>创建一个名为 p3 的表，包含一个非空的 press_name 字段、一个默认值为"11111"的 postcode 字段和一个唯一约束的 press_tel 字段</p>
+                    <code>create table p3(
+    press_name varchar(50) not null,
+    postcode char(6) default "11111",
+    press_tel varchar(15) unique
+);</code>
+                </div>
+
+                <div id="modify-field-unique">
+                    <p>修改 t_press 表中的 website 字段类型为长度为100的字符串，并设置为唯一约束</p>
+                    <code>alter table t_press modify website varchar(100) unique;</code>
+                </div>
+
+                <div id="query-and">
+                    <p>查询 t_press 表中同时满足 press_name='dfg' 和 postcode='111111' 的记录</p>
+                    <code>select * from t_press where press_name='dfg' and postcode='111111';</code>
+                </div>
+
+                <div id="query-or">
+                    <p>查询 t_press 表中满足 press_name='dfg' 或 postcode='111111' 的记录</p>
+                    <code>select * from t_press where press_name='dfg' or postcode='111111';</code>
+                </div>
+            </div>
+        </div>
+        
+        <div class="right-sidebar" id="linux-sidebar" style="display: none;">
+            <!-- 目录操作 -->
+            <div class="nav-group">
+                <div class="nav-group-title">目录操作</div>
+                <div class="right-nav-item" data-target="pwd-command">pwd命令</div>
+                <div class="right-nav-item" data-target="ls-command">ls命令</div>
+                <div class="right-nav-item" data-target="cd-command">cd命令</div>
+                <div class="right-nav-item" data-target="mkdir-command">mkdir命令</div>
+                <div class="right-nav-item" data-target="rmdir-command">rmdir命令</div>
+            </div>
+
+            <!-- 文件操作 -->
+            <div class="nav-group">
+                <div class="nav-group-title">文件操作</div>
+                <div class="right-nav-item" data-target="cp-command">cp命令</div>
+                <div class="right-nav-item" data-target="mv-command">mv命令</div>
+                <div class="right-nav-item" data-target="find-command">find命令</div>
+            </div>
+
+            <!-- 文件内容 -->
+            <div class="nav-group">
+                <div class="nav-group-title">文件内容</div>
+                <div class="right-nav-item" data-target="more-less-command">more/less命令</div>
+                <div class="right-nav-item" data-target="cat-command">cat命令</div>
+            </div>
+
+            <!-- 压缩解压 -->
+            <div class="nav-group">
+                <div class="nav-group-title">压缩解压</div>
+                <div class="right-nav-item" data-target="tar-command">tar命令</div>
+            </div>
+
+            <!-- 系统信息 -->
+            <div class="nav-group">
+                <div class="nav-group-title">系统信息</div>
+                <div class="right-nav-item" data-target="cal-command">cal命令</div>
+                <div class="right-nav-item" data-target="date-command">date命令</div>
+            </div>
+
+            <!-- 文本编辑 -->
+            <div class="nav-group">
+                <div class="nav-group-title">文本编辑</div>
+                <div class="right-nav-item" data-target="vi-command">vi命令</div>
+            </div>
+        </div>
+
+        <!-- 将MySQL右侧导航栏修改为 -->
+        <div class="right-sidebar" id="mysql-sidebar">
+            <!-- 数据库操作 -->
+            <div class="nav-group">
+                <div class="nav-group-title">数据库操作</div>
+                <div class="right-nav-item" data-target="create-database">创建数据库</div>
+                <div class="right-nav-item" data-target="use-database">切换数据库</div>
+                <div class="right-nav-item" data-target="show-databases">显示所有数据库</div>
+                <div class="right-nav-item" data-target="drop-database">删除数据库</div>
+            </div>
+
+            <!-- 表操作 -->
+            <div class="nav-group">
+                <div class="nav-group-title">表操作</div>
+                <div class="right-nav-item" data-target="create-table">创建数据表</div>
+                <div class="right-nav-item" data-target="create-like-table">复制表结构</div>
+                <div class="right-nav-item" data-target="describe-table">查看表结构</div>
+                <div class="right-nav-item" data-target="show-tables">显示所有表</div>
+                <div class="right-nav-item" data-target="drop-table">删除表</div>
+                <div class="right-nav-item" data-target="rename-table">重命名表</div>
+            </div>
+
+            <!-- 字段操作 -->
+            <div class="nav-group">
+                <div class="nav-group-title">字段操作</div>
+                <div class="right-nav-item" data-target="add-field">添加字段</div>
+                <div class="right-nav-item" data-target="add-field-first">添加首位字段</div>
+                <div class="right-nav-item" data-target="add-field-after">指定位置添加字段</div>
+                <div class="right-nav-item" data-target="drop-field">删除字段</div>
+                <div class="right-nav-item" data-target="modify-field">修改字段类型</div>
+                <div class="right-nav-item" data-target="rename-field">重命名字段</div>
+                <div class="right-nav-item" data-target="move-field">移动字段位置</div>
+            </div>
+
+            <!-- 约束 -->
+            <div class="nav-group">
+                <div class="nav-group-title">约束</div>
+                <div class="right-nav-item" data-target="create-table-notnull">非空约束</div>
+                <div class="right-nav-item" data-target="create-table-default">默认值约束</div>
+                <div class="right-nav-item" data-target="create-table-unique">唯一约束</div>
+                <div class="right-nav-item" data-target="modify-field-unique">添加唯一约束</div>
+            </div>
+
+            <!-- 查询 -->
+            <div class="nav-group">
+                <div class="nav-group-title">查询</div>
+                <div class="right-nav-item" data-target="query-and">AND查询</div>
+                <div class="right-nav-item" data-target="query-or">OR查询</div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+    <script>
+        hljs.highlightAll();
+        
+        // 修改左侧导航点击事件
+        document.getElementById('linux-commands').addEventListener('click', function(e) {
+            e.preventDefault();
+            // 显示所有Linux代码块
+            document.querySelectorAll('#linux-commands-content > div').forEach(div => {
+                div.style.display = 'block';
+            });
+            // 移除Linux右侧导航的激活状态
+            document.querySelectorAll('#linux-sidebar .right-nav-item').forEach(nav => {
+                nav.classList.remove('active');
+            });
+        });
+
+        // 添加MySQL展开点击事件
+        document.getElementById('mysql-commands').addEventListener('click', function(e) {
+            e.preventDefault();
+            // 显示所有MySQL代码块
+            document.querySelectorAll('#mysql-content > div').forEach(div => {
+                div.style.display = 'block';
+            });
+            // 移除MySQL右侧导航的激活状态
+            document.querySelectorAll('#mysql-sidebar .right-nav-item').forEach(nav => {
+                nav.classList.remove('active');
+            });
+        });
+
+        // 修改右侧导航点击事件处理
+        document.querySelectorAll('.right-nav-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const targetId = item.getAttribute('data-target');
+                const targetElement = document.querySelector(`#${targetId}`);
+                
+                if (targetElement) {
+                    // 判断是在哪个内容区域
+                    const isLinuxContent = targetElement.closest('#linux-commands-content') !== null;
+                    const contentArea = isLinuxContent ? '#linux-commands-content' : '#mysql-content';
+                    
+                    // 隐藏对应内容区域的所有div
+                    document.querySelectorAll(`${contentArea} > div`).forEach(div => {
+                        div.style.display = 'none';
+                    });
+                    
+                    // 显示目标元素
+                    targetElement.style.display = 'block';
+                    
+                    // 更新当前侧边栏的导航项状态
+                    const currentSidebar = isLinuxContent ? '#linux-sidebar' : '#mysql-sidebar';
+                    document.querySelectorAll(`${currentSidebar} .right-nav-item`).forEach(nav => {
+                        nav.classList.remove('active');
+                    });
+                    item.classList.add('active');
+                    
+                    // 滚动到目标位置
+                    setTimeout(() => {
+                        const topNav = document.querySelector('.top-nav');
+                        const topOffset = topNav ? topNav.offsetHeight : 0;
+                        const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - topOffset - 20;
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+                    }, 0);
+                }
+            });
+        });
+
+        // 修改代码复制功能
+        document.querySelectorAll('#linux-commands-content code, #mysql-content code').forEach(block => {
+            block.addEventListener('click', async () => {
+                try {
+                    await navigator.clipboard.writeText(block.textContent);
+                    block.classList.add('copied');
+                    setTimeout(() => {
+                        block.classList.remove('copied');
+                    }, 1000);
+                } catch (err) {
+                    console.error('复制失败:', err);
+                }
+            });
+        });
+
+        // 添加到现有script标签内
+        function setActiveNav(element) {
+            // 移除所有导航项的active类
+            document.querySelectorAll('.top-nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            // 给被点击的导航项添加active类
+            element.classList.add('active');
+            
+            // 切换内容显示
+            const isLinux = element.textContent === 'Linux';
+            document.getElementById('linux-commands-content').style.display = isLinux ? 'block' : 'none';
+            document.getElementById('mysql-content').style.display = isLinux ? 'none' : 'block';
+            document.getElementById('linux-sidebar').style.display = isLinux ? 'block' : 'none';
+            document.getElementById('mysql-sidebar').style.display = isLinux ? 'none' : 'block';
+            
+            // 控制左侧导航栏显示
+            document.getElementById('linux-nav').style.display = isLinux ? 'block' : 'none';
+            document.getElementById('mysql-nav').style.display = isLinux ? 'none' : 'block';
+        }
+
+        // 页面加载完成时初始化左侧导航栏显示状态
+        document.addEventListener('DOMContentLoaded', function() {
+            const activeNav = document.querySelector('.top-nav-item.active');
+            if (activeNav) {
+                const isLinux = activeNav.textContent === 'Linux';
+                document.getElementById('linux-nav').style.display = isLinux ? 'block' : 'none';
+                document.getElementById('mysql-nav').style.display = isLinux ? 'none' : 'block';
+            }
+        });
+
+        // 优化拖动功能,限制只能垂直移动
+        const logo = document.querySelector('.logo');
+        let isDragging = false;
+        let startY;
+        let lastY = 20;  // 初始垂直位置
+
+        function onMouseDown(e) {
+            isDragging = true;
+            startY = e.clientY - lastY;
+            logo.style.cursor = 'grabbing';
+        }
+
+        function onMouseMove(e) {
+            if (!isDragging) return;
+            
+            e.preventDefault();
+            
+            // 只计算垂直位置
+            lastY = e.clientY - startY;
+            
+            // 限制在视窗范围内
+            const rect = logo.getBoundingClientRect();
+            const maxY = window.innerHeight - rect.height;
+            lastY = Math.min(Math.max(0, lastY), maxY);
+            
+            // 只应用垂直位置
+            logo.style.top = `${lastY}px`;
+        }
+
+        function onMouseUp() {
+            isDragging = false;
+            logo.style.cursor = 'move';
+        }
+
+        // 添加事件监听
+        logo.addEventListener('mousedown', onMouseDown);
+        document.addEventListener('mousemove', onMouseMove);
+        document.addEventListener('mouseup', onMouseUp);
+
+        // 防止拖动时选中文本
+        logo.addEventListener('dragstart', (e) => e.preventDefault());
+
+                    const player = document.getElementById('music-player');
+            const audio = document.getElementById('bgm');
+            let isPlaying = false;
+
+            player.addEventListener('click', () => {
+              if (isPlaying) {
+                audio.pause();
+                player.innerHTML = '▶';
+              } else {
+                audio.play();
+                player.innerHTML = '⏸';
+              }
+              isPlaying = !isPlaying;
+            });
+
+    </script>
+</body>
+</html>
