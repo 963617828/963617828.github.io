@@ -12,7 +12,7 @@
 
     <audio id="bgm" loop>
 
-    <source src="1.mp3" type="audio/mpeg">
+    <source src="assets/music.mp3" type="audio/mpeg">
     您的浏览器不支持音频播放
     </audio>
     
@@ -446,13 +446,16 @@ code {
     margin-top: 2px;
 }
 
+.pink-text {
+    color: #FFB6C1 !important;
+}
 
     </style>
 
 </head>
 <body>
     <div class="logo">
-        <img src="log.jpg" alt="Logo">
+        <img src="img/log.jpg" alt="Logo">
         <div class="info">
             <span class="author">ooowakaka</span>
             <span class="motto">联系人</span>
@@ -463,14 +466,14 @@ code {
         <div class="top-nav-content">
             <a href="#" class="top-nav-item" onclick="setActiveNav(this)">Linux</a>
             <a href="#" class="top-nav-item active" style="margin-left: 20px;" onclick="setActiveNav(this)">MySQL</a>
-            <div style="margin-left: auto;"><a href="#" class="top-nav-item" onclick="setActiveNav(this)">各种文件</a></div>
+            <div style="margin-left: auto;"><a href="#" class="top-nav-item" onclick="setActiveNav(this, 'files')">各种文件</a></div>
         </div>
     </div>
     <div class="container">
         <div class="sidebar">
             <div class="nav-item" id="linux-nav"><a href="#" id="linux-commands">Linux展开</a></div>
             <div class="nav-item" id="mysql-nav"><a href="#" id="mysql-commands">MySQL展开</a></div>
-           
+            <div class="nav-item" id="files-nav" style="display: none;"><a href="#" id="mysql-scripts" style="color: white;">MySQL脚本</a></div>
         </div>
         
         <div class="content">
@@ -747,6 +750,41 @@ code {
                     <code>select * from t_press where press_name='dfg' or postcode='111111';</code>
                 </div>
             </div>
+
+            <!-- 添加文件内容区域 -->
+            <div id="files-content" style="display: none;">
+                <div id="mysql-scripts-content">
+                    <div class="sql-file-list">
+                        <div class="sql-file-item" data-file="ooowakaka_two">
+                            <a href="https://i-883.wwentua.com:446/03211800228897058bb/2025/03/21/5ac17d66408d21db4478fa608172ecdf.zip?st=VvJl0-ElhOYqWMOE5i5OAA&e=1742556792&b=VGldMglmAHJSZgM_bV2YEawczAHJQKwZpBiU_c&fi=228897058&pid=123-147-249-145&up=2&mp=0&co=0" download="ooowakaka.sql" style="color: #4CAF50; text-decoration: none; display: block;">ooowakaka.sql</a>
+                        </div>
+                        <div class="sql-file-item" data-file="ooowakaka_one">
+                           
+                        </div>
+                        <div class="sql-file-item" data-file="ooowakaka_pro">
+                           
+                        </div>
+                        <div class="sql-file-item" data-file="ooowakaka">
+                          
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- SQL 文件内容 -->
+                <div id="ooowakaka" class="sql-file-content" style="display: none;">
+                    <h3 class="pink-text">ooowakaka.sql</h3>
+                    <pre><code class="language-sql">-- ooowakaka.sql 文件内容
+CREATE DATABASE IF NOT EXISTS ooowakaka;
+USE ooowakaka;
+
+-- 创建客户表
+CREATE TABLE customers (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE
+);</code></pre>
+                </div>
+            </div>
         </div>
         
         <div class="right-sidebar" id="linux-sidebar" style="display: none;">
@@ -933,7 +971,7 @@ code {
         });
 
         // 添加到现有script标签内
-        function setActiveNav(element) {
+        function setActiveNav(element, type) {
             // 移除所有导航项的active类
             document.querySelectorAll('.top-nav-item').forEach(item => {
                 item.classList.remove('active');
@@ -943,14 +981,20 @@ code {
             
             // 切换内容显示
             const isLinux = element.textContent === 'Linux';
+            const isMySQL = element.textContent === 'MySQL';
+            const isFiles = type === 'files';
+            
             document.getElementById('linux-commands-content').style.display = isLinux ? 'block' : 'none';
-            document.getElementById('mysql-content').style.display = isLinux ? 'none' : 'block';
+            document.getElementById('mysql-content').style.display = isMySQL ? 'block' : 'none';
+            document.getElementById('files-content').style.display = isFiles ? 'block' : 'none';
+            
             document.getElementById('linux-sidebar').style.display = isLinux ? 'block' : 'none';
-            document.getElementById('mysql-sidebar').style.display = isLinux ? 'none' : 'block';
+            document.getElementById('mysql-sidebar').style.display = isMySQL ? 'block' : 'none';
             
             // 控制左侧导航栏显示
             document.getElementById('linux-nav').style.display = isLinux ? 'block' : 'none';
-            document.getElementById('mysql-nav').style.display = isLinux ? 'none' : 'block';
+            document.getElementById('mysql-nav').style.display = isMySQL ? 'block' : 'none';
+            document.getElementById('files-nav').style.display = isFiles ? 'block' : 'none';
         }
 
         // 页面加载完成时初始化左侧导航栏显示状态
