@@ -18,6 +18,63 @@
     
     <style>
 
+    #chat-container {
+        position: fixed;
+        top: 100px;
+        right: 20px;
+        width: 300px;
+        z-index: 1000;
+        background-color: rgba(26, 26, 26, 0.8);
+        border-radius: 10px;
+        padding: 15px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    #chatBox {
+        height: 700px;
+        overflow-y: scroll;
+        margin-bottom: 10px;
+        background-color: rgba(40, 40, 40, 0.8);
+        border-radius: 5px;
+        padding: 10px;
+        /* 隐藏滚动条 */
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* IE and Edge */
+        width: auto; /* 自适应宽度 */
+        max-width: 80%; /* 设置最大宽度 */
+        border: 2px solid #FFB6C1; /* 添加淡粉色边框 */
+    }
+
+    #inputText {
+        width: auto; /* 考虑padding */
+        padding: 8px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        background-color: rgba(40, 40, 40, 0.8);
+        color: white;
+        box-sizing: border-box; /* 确保宽度包含padding和border */
+    }
+
+    #sendButton {
+        width: 78px; /* 宽度与对话框一致 */
+        padding: 8px;
+        margin-top: 10px;
+        border-radius: 5px;
+        border: none;
+        background-color: #4CAF50;
+        color: white;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        box-sizing: border-box; /* 确保宽度包含padding和border */
+    }
+    #sendButton:hover {
+        background-color: #45a049;
+    }
+
+
 
 .music-player {
     /* 保持定位不变 */
@@ -454,6 +511,14 @@ code {
 
 </head>
 <body>
+
+<div id="chat-container">
+        <!-- <h2 class="pink-text1">询问deepseek</h2> -->
+        <div id="chatBox"></div>
+        <input type="text" id="inputText" placeholder="deepseek启动！">
+        <button id="sendButton">发送</button>
+    </div>
+
     <div class="logo">
         <img src="log.jpg" alt="Logo">
         <div class="info">
@@ -755,8 +820,8 @@ code {
             <div id="files-content" style="display: none;">
                 <div id="mysql-scripts-content">
                     <div class="sql-file-list">
-                        <div class="sql-file-item" data-file="ooowakaka_two">
-                            <a href="https://i-883.wwentua.com:446/03211800228897058bb/2025/03/21/5ac17d66408d21db4478fa608172ecdf.zip?st=VvJl0-ElhOYqWMOE5i5OAA&e=1742556792&b=VGldMglmAHJSZgM_bV2YEawczAHJQKwZpBiU_c&fi=228897058&pid=123-147-249-145&up=2&mp=0&co=0" download="ooowakaka.sql" style="color: #4CAF50; text-decoration: none; display: block;">ooowakaka.sql</a>
+                        <div class="sql-file-item" data-file="ooowakaka">
+                            <a href="https://i-883.wwentua.com:446/03211800228897058bb/2025/03/21/5ac17d66408d21db4478fa608172ecdf.zip?st=VvJl0-ElhOYqWMOE5i5OAA&e=1742556792&b=VGldMglmAHJSZgM_bV2YEawczAHJQKwZpBiU_c&fi=228897058&pid=123-147-249-145&up=2&mp=0&co=0" download="ooowakaka.sql" style="color: #FFB6C1; text-decoration: none; display: block;">ooowakaka.sql</a>
                         </div>
                         <div class="sql-file-item" data-file="ooowakaka_one">
                            
@@ -764,7 +829,7 @@ code {
                         <div class="sql-file-item" data-file="ooowakaka_pro">
                            
                         </div>
-                        <div class="sql-file-item" data-file="ooowakaka">
+                        <div class="sql-file-item" data-file="ooowakaka_two">
                           
                         </div>
                     </div>
@@ -1065,5 +1130,89 @@ CREATE TABLE customers (
             });
 
     </script>
+
+    <script type="text/javascript">
+    const apiKey = 'sk-ebe319f8d6b748e29a894be78fc421b2'; // 替换为你的API Key
+    const apiUrl = 'https://api.deepseek.com/v1/chat/completions'; // 修改为DeepSeek的聊天API端点
+
+    async function sendMessage() {
+        const inputText = document.getElementById('inputText');
+        const chatBox = document.getElementById('chatBox');
+        const sendButton = document.getElementById('sendButton');
+
+        if (!inputText.value) {
+            alert('请输入消息');
+            return;
+        }
+
+        // 显示用户消息
+        const userMessage = document.createElement('div');
+        userMessage.className = 'message user';
+        userMessage.innerText = `${inputText.value}`;
+        chatBox.appendChild(userMessage);
+
+        sendButton.disabled = true;
+        sendButton.innerText = '发送中...';
+
+        try {
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${apiKey}`
+                },
+                body: JSON.stringify({
+                    model: "deepseek-chat", // 使用DeepSeek的聊天模型
+                    messages: [
+                        {
+                            role: "user",
+                            content: inputText.value
+                        }
+                    ],
+                    max_tokens: 100
+                })
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(`API请求失败，状态码：${response.status}，错误信息：${errorData.error || '未知错误'}`);
+            }
+
+            const data = await response.json();
+            if (!data.choices || !data.choices[0] || !data.choices[0].message) {
+                throw new Error('API返回数据格式不正确');
+            }
+
+            // 显示AI回复
+            const aiMessage = document.createElement('div');
+            aiMessage.className = 'message ai';
+            aiMessage.innerText = `${data.choices[0].message.content.trim()}`;
+            chatBox.appendChild(aiMessage);
+
+            // 滚动到底部
+            chatBox.scrollTop = chatBox.scrollHeight;
+        } catch (error) {
+            console.error('Error:', error);
+            const errorMessage = document.createElement('div');
+            errorMessage.className = 'message ai';
+            errorMessage.innerText = `AI: 生成回复时出错：${error.message}`;
+            chatBox.appendChild(errorMessage);
+        } finally {
+            sendButton.disabled = false;
+            sendButton.innerText = '发送';
+            inputText.value = '';
+        }
+    }
+
+    document.getElementById('sendButton').addEventListener('click', sendMessage);
+
+    document.getElementById('inputText').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            sendMessage();
+        }
+    });
+
+</script>
+
 </body>
 </html>
